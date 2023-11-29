@@ -116,7 +116,7 @@ def set_ble_name(name: str) -> None:
 def get_ble_name() -> str:
     ble_name = common.get(_NAMESPACE, _BLE_NAME, public=True)
     if ble_name is None:
-        return "T1122" if utils.EMULATOR else ""
+        return "P2170" if utils.EMULATOR else ""
     return ble_name.decode()
 
 
@@ -151,7 +151,7 @@ def get_ble_version() -> str:
 
 
 def get_model() -> str:
-    return "OneKey Touch"
+    return "OneKey Pro"
 
 
 def get_serial() -> str:
