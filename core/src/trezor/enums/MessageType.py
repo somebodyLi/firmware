@@ -378,3 +378,5 @@ if not utils.BITCOIN_ONLY:
     ResourceUpdate = 10022
     ListResDir = 10023
     FileInfoList = 10024
+    OnekeyGetFeatures = 10025
+    OnekeyFeatures = 10026

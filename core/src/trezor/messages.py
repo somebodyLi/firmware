@@ -48,6 +48,8 @@ if TYPE_CHECKING:
     from trezor.enums import NEMModificationType  # noqa: F401
     from trezor.enums import NEMMosaicLevy  # noqa: F401
     from trezor.enums import NEMSupplyChangeType  # noqa: F401
+    from trezor.enums import OneKeyDeviceType  # noqa: F401
+    from trezor.enums import OneKeySeType  # noqa: F401
     from trezor.enums import OutputScriptType  # noqa: F401
     from trezor.enums import PinMatrixRequestType  # noqa: F401
     from trezor.enums import RecoveryDeviceType  # noqa: F401
@@ -2535,6 +2537,12 @@ if TYPE_CHECKING:
         def is_type_of(cls, msg: Any) -> TypeGuard["GetFeatures"]:
             return isinstance(msg, cls)
 
+    class OnekeyGetFeatures(protobuf.MessageType):
+
+        @classmethod
+        def is_type_of(cls, msg: Any) -> TypeGuard["OnekeyGetFeatures"]:
+            return isinstance(msg, cls)
+
     class Features(protobuf.MessageType):
         vendor: "str | None"
         major_version: "int"
@@ -2593,6 +2601,21 @@ if TYPE_CHECKING:
         build_id: "bytes | None"
         boardloader_version: "str | None"
         busy: "bool | None"
+        onekey_device_type: "OneKeyDeviceType | None"
+        onekey_se_type: "OneKeySeType | None"
+        onekey_board_version: "str | None"
+        onekey_board_hash: "bytes | None"
+        onekey_boot_version: "str | None"
+        onekey_boot_hash: "bytes | None"
+        onekey_firmware_version: "str | None"
+        onekey_firmware_hash: "bytes | None"
+        onekey_firmware_build_id: "str | None"
+        onekey_serial_no: "str | None"
+        onekey_boot_build_id: "str | None"
+        onekey_ble_name: "str | None"
+        onekey_ble_version: "str | None"
+        onekey_ble_build_id: "str | None"
+        onekey_ble_hash: "bytes | None"
 
         def __init__(
             self,
@@ -2654,11 +2677,70 @@ if TYPE_CHECKING:
             build_id: "bytes | None" = None,
             boardloader_version: "str | None" = None,
             busy: "bool | None" = None,
+            onekey_device_type: "OneKeyDeviceType | None" = None,
+            onekey_se_type: "OneKeySeType | None" = None,
+            onekey_board_version: "str | None" = None,
+            onekey_board_hash: "bytes | None" = None,
+            onekey_boot_version: "str | None" = None,
+            onekey_boot_hash: "bytes | None" = None,
+            onekey_firmware_version: "str | None" = None,
+            onekey_firmware_hash: "bytes | None" = None,
+            onekey_firmware_build_id: "str | None" = None,
+            onekey_serial_no: "str | None" = None,
+            onekey_boot_build_id: "str | None" = None,
+            onekey_ble_name: "str | None" = None,
+            onekey_ble_version: "str | None" = None,
+            onekey_ble_build_id: "str | None" = None,
+            onekey_ble_hash: "bytes | None" = None,
         ) -> None:
             pass
 
         @classmethod
         def is_type_of(cls, msg: Any) -> TypeGuard["Features"]:
+            return isinstance(msg, cls)
+
+    class OnekeyFeatures(protobuf.MessageType):
+        onekey_device_type: "OneKeyDeviceType | None"
+        onekey_board_version: "str | None"
+        onekey_boot_version: "str | None"
+        onekey_firmware_version: "str | None"
+        onekey_board_hash: "bytes | None"
+        onekey_boot_hash: "bytes | None"
+        onekey_firmware_hash: "bytes | None"
+        onekey_board_build_id: "str | None"
+        onekey_boot_build_id: "str | None"
+        onekey_firmware_build_id: "str | None"
+        onekey_serial_no: "str | None"
+        onekey_ble_name: "str | None"
+        onekey_ble_version: "str | None"
+        onekey_ble_build_id: "str | None"
+        onekey_ble_hash: "bytes | None"
+        onekey_se_type: "OneKeySeType | None"
+
+        def __init__(
+            self,
+            *,
+            onekey_device_type: "OneKeyDeviceType | None" = None,
+            onekey_board_version: "str | None" = None,
+            onekey_boot_version: "str | None" = None,
+            onekey_firmware_version: "str | None" = None,
+            onekey_board_hash: "bytes | None" = None,
+            onekey_boot_hash: "bytes | None" = None,
+            onekey_firmware_hash: "bytes | None" = None,
+            onekey_board_build_id: "str | None" = None,
+            onekey_boot_build_id: "str | None" = None,
+            onekey_firmware_build_id: "str | None" = None,
+            onekey_serial_no: "str | None" = None,
+            onekey_ble_name: "str | None" = None,
+            onekey_ble_version: "str | None" = None,
+            onekey_ble_build_id: "str | None" = None,
+            onekey_ble_hash: "bytes | None" = None,
+            onekey_se_type: "OneKeySeType | None" = None,
+        ) -> None:
+            pass
+
+        @classmethod
+        def is_type_of(cls, msg: Any) -> TypeGuard["OnekeyFeatures"]:
             return isinstance(msg, cls)
 
     class LockDevice(protobuf.MessageType):

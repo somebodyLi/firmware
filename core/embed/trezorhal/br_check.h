@@ -21,7 +21,15 @@
 #define __BR_CHECK_H__
 
 #include <stdbool.h>
+#include <stdio.h>
+#include "image.h"
+
+#define FLASH_PTR(x) (const uint8_t *)(x)
 
 char *get_boardloader_version(void);
+uint8_t *get_boardloader_hash(void);
+char *get_bootloader_build_id(void);
+uint8_t *get_bootloader_hash(void);
+uint8_t *get_firmware_hash(void);
 
 #endif

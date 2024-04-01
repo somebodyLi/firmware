@@ -21,6 +21,7 @@
 #include <string.h>
 
 #include "br_check.h"
+#include "flash.h"
 #include "image.h"
 #include "sha2.h"
 
@@ -84,4 +85,77 @@ char *get_boardloader_version(void) {
   }
 
   return boardloader_version;
+}
+
+uint8_t *get_boardloader_hash(void) {
+  static uint8_t boardloader_hash[32] = {0};
+
+  sha256_Raw((uint8_t *)BOARDLOADER_START, BOOTLOADER_START - BOARDLOADER_START,
+             boardloader_hash);
+  sha256_Raw(boardloader_hash, 32, boardloader_hash);
+
+  return boardloader_hash;
+}
+
+uint8_t *get_bootloader_hash(void) {
+  static uint8_t bootloader_hash[32] = {0};
+
+  uint8_t *p_code_len = (uint8_t *)(BOOTLOADER_START + 12);
+  int len = p_code_len[0] + p_code_len[1] * 256 + p_code_len[2] * 256 * 256;
+  sha256_Raw((uint8_t *)(BOOTLOADER_START + 1024), len, bootloader_hash);
+  sha256_Raw(bootloader_hash, 32, bootloader_hash);
+
+  return bootloader_hash;
+}
+
+char *get_bootloader_build_id(void) {
+#define BOOTLOADER_BUILD_ID_OFFSET 943
+  static char bootloader_build[16] = {0};
+  uint8_t build_id_len = 0;
+
+  char *p_build_id = (char *)(BOOTLOADER_START + BOOTLOADER_BUILD_ID_OFFSET);
+  build_id_len = strnlen(p_build_id, sizeof(bootloader_build) - 1);
+  if (build_id_len > 0) {
+    memcpy(bootloader_build, p_build_id, build_id_len);
+  } else {
+    memcpy(bootloader_build, "unknown", strlen("unknown"));
+  }
+
+  return bootloader_build;
+}
+
+uint8_t *get_firmware_hash(void) {
+  static uint8_t onekey_firmware_hash[32] = {0};
+  static bool onekey_firmware_hash_cached = false;
+  if (!onekey_firmware_hash_cached) {
+    SHA256_CTX context = {0};
+    sha256_Init(&context);
+
+    vendor_header *vhdr = (vendor_header *)FIRMWARE_START;
+    image_header *hdr = (image_header *)(FIRMWARE_START + vhdr->hdrlen);
+    uint32_t innner_firmware_len = 0, outer_firmware_len = 0;
+
+    if (vhdr->magic != 0x56544B4F || hdr->magic != FIRMWARE_IMAGE_MAGIC)
+      return onekey_firmware_hash;
+
+    innner_firmware_len =
+        hdr->codelen >
+                FLASH_FIRMWARE_SECTOR_SIZE * FIRMWARE_INNER_SECTORS_COUNT -
+                    vhdr->hdrlen - IMAGE_HEADER_SIZE
+            ? FLASH_FIRMWARE_SECTOR_SIZE * FIRMWARE_INNER_SECTORS_COUNT -
+                  vhdr->hdrlen - IMAGE_HEADER_SIZE
+            : hdr->codelen;
+    outer_firmware_len = hdr->codelen - innner_firmware_len;
+    sha256_Update(&context,
+                  (uint8_t *)FIRMWARE_START + vhdr->hdrlen + IMAGE_HEADER_SIZE,
+                  innner_firmware_len);
+    sha256_Update(&context,
+                  flash_get_address(FLASH_SECTOR_FIRMWARE_EXTRA_START, 0, 0),
+                  outer_firmware_len);
+    sha256_Final(&context, onekey_firmware_hash);
+
+    onekey_firmware_hash_cached = true;
+  }
+
+  return onekey_firmware_hash;
 }

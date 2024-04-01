@@ -61,6 +61,13 @@ def firmware_hash(
 
 
 # extmod/modtrezorutils/modtrezorutils.c
+def onekey_firmware_hash() -> bytes:
+    """
+    Computes the sha256 hash of the firmware
+    """
+
+
+# extmod/modtrezorutils/modtrezorutils.c
 def firmware_vendor() -> str:
     """
     Returns the firmware vendor string from the vendor header.
@@ -89,9 +96,30 @@ def boot_version() -> str:
 
 
 # extmod/modtrezorutils/modtrezorutils.c
+def boot_hash() -> bytes:
+    """
+    Returns the bootloader hash string.
+    """
+
+
+# extmod/modtrezorutils/modtrezorutils.c
 def board_version() -> str:
     """
     Returns the bootloader version string.
+    """
+
+
+# extmod/modtrezorutils/modtrezorutils.c
+def board_hash() -> bytes:
+    """
+    Returns the boardloader hash.
+    """
+
+
+# extmod/modtrezorutils/modtrezorutils.c
+def boot_build_id() -> str:
+    """
+    Returns the bootloader build_id.
     """
 
 

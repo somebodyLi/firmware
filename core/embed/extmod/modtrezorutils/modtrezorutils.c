@@ -201,6 +201,22 @@ STATIC mp_obj_t mod_trezorutils_firmware_hash(size_t n_args,
 STATIC MP_DEFINE_CONST_FUN_OBJ_VAR_BETWEEN(mod_trezorutils_firmware_hash_obj, 0,
                                            2, mod_trezorutils_firmware_hash);
 
+/// def onekey_firmware_hash() -> bytes:
+///     """
+///     Computes the sha256 hash of the firmware
+///     """
+STATIC mp_obj_t mod_trezorutils_onekey_firmware_hash(void) {
+  vstr_t hash = {0};
+
+  vstr_init_len(&hash, 32);
+
+  memcpy((uint8_t *)hash.buf, get_firmware_hash(), 32);
+
+  return mp_obj_new_str_from_vstr(&mp_type_bytes, &hash);
+}
+STATIC MP_DEFINE_CONST_FUN_OBJ_0(mod_trezorutils_onekey_firmware_hash_obj,
+                                 mod_trezorutils_onekey_firmware_hash);
+
 /// def firmware_vendor() -> str:
 ///     """
 ///     Returns the firmware vendor string from the vendor header.
@@ -272,6 +288,26 @@ STATIC mp_obj_t mod_trezorutils_boot_version(void) {
 STATIC MP_DEFINE_CONST_FUN_OBJ_0(mod_trezorutils_boot_version_obj,
                                  mod_trezorutils_boot_version);
 
+/// def boot_hash() -> bytes:
+///     """
+///     Returns the bootloader hash string.
+///     """
+STATIC mp_obj_t mod_trezorutils_boot_hash(void) {
+  vstr_t vstr = {0};
+  vstr_init_len(&vstr, 32);
+#ifdef TREZOR_EMULATOR
+  return mp_obj_new_str_from_vstr(&mp_type_bytes, &vstr);
+#else
+  uint8_t *hash = get_bootloader_hash();
+
+  memcpy((uint8_t *)vstr.buf, hash, 32);
+
+  return mp_obj_new_str_from_vstr(&mp_type_bytes, &vstr);
+#endif
+}
+STATIC MP_DEFINE_CONST_FUN_OBJ_0(mod_trezorutils_boot_hash_obj,
+                                 mod_trezorutils_boot_hash);
+
 /// def board_version() -> str:
 ///     """
 ///     Returns the bootloader version string.
@@ -289,6 +325,42 @@ STATIC mp_obj_t mod_trezorutils_board_version(void) {
 }
 STATIC MP_DEFINE_CONST_FUN_OBJ_0(mod_trezorutils_board_version_obj,
                                  mod_trezorutils_board_version);
+/// def board_hash() -> bytes:
+///     """
+///     Returns the boardloader hash.
+///     """
+STATIC mp_obj_t mod_trezorutils_board_hash(void) {
+  vstr_t vstr = {0};
+  vstr_init_len(&vstr, 32);
+#ifdef TREZOR_EMULATOR
+  return mp_obj_new_str_from_vstr(&mp_type_bytes, &vstr);
+#else
+  uint8_t *hash = get_boardloader_hash();
+
+  memcpy((uint8_t *)vstr.buf, hash, 32);
+
+  return mp_obj_new_str_from_vstr(&mp_type_bytes, &vstr);
+#endif
+}
+STATIC MP_DEFINE_CONST_FUN_OBJ_0(mod_trezorutils_board_hash_obj,
+                                 mod_trezorutils_board_hash);
+
+/// def boot_build_id() -> str:
+///     """
+///     Returns the bootloader build_id.
+///     """
+STATIC mp_obj_t mod_trezorutils_boot_build_id(void) {
+#ifdef TREZOR_EMULATOR
+  mp_obj_new_str_copy(&mp_type_str, (const uint8_t *)"EMULATOR", 8);
+#else
+  char *str = get_bootloader_build_id();
+
+  return mp_obj_new_str_copy(&mp_type_str, (const uint8_t *)str, strlen(str));
+#endif
+}
+STATIC MP_DEFINE_CONST_FUN_OBJ_0(mod_trezorutils_boot_build_id_obj,
+                                 mod_trezorutils_boot_build_id);
+
 /// def usb_data_connected() -> bool:
 ///     """
 ///     Returns whether USB has been enumerated/configured
@@ -333,13 +405,20 @@ STATIC const mp_rom_map_elem_t mp_module_trezorutils_globals_table[] = {
     {MP_ROM_QSTR(MP_QSTR_reset), MP_ROM_PTR(&mod_trezorutils_reset_obj)},
     {MP_ROM_QSTR(MP_QSTR_firmware_hash),
      MP_ROM_PTR(&mod_trezorutils_firmware_hash_obj)},
+    {MP_ROM_QSTR(MP_QSTR_onekey_firmware_hash),
+     MP_ROM_PTR(&mod_trezorutils_onekey_firmware_hash_obj)},
     {MP_ROM_QSTR(MP_QSTR_firmware_vendor),
      MP_ROM_PTR(&mod_trezorutils_firmware_vendor_obj)},
     {MP_ROM_QSTR(MP_QSTR_boot_version),
      MP_ROM_PTR(&mod_trezorutils_boot_version_obj)},
+    {MP_ROM_QSTR(MP_QSTR_boot_hash),
+     MP_ROM_PTR(&mod_trezorutils_boot_hash_obj)},
+    {MP_ROM_QSTR(MP_QSTR_boot_build_id),
+     MP_ROM_PTR(&mod_trezorutils_boot_build_id_obj)},
     {MP_ROM_QSTR(MP_QSTR_board_version),
      MP_ROM_PTR(&mod_trezorutils_board_version_obj)},
-
+    {MP_ROM_QSTR(MP_QSTR_board_hash),
+     MP_ROM_PTR(&mod_trezorutils_board_hash_obj)},
     {MP_ROM_QSTR(MP_QSTR_usb_data_connected),
      MP_ROM_PTR(&mod_trezorutils_usb_data_connected_obj)},
     // various built-in constants

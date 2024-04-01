@@ -21,6 +21,8 @@ if TYPE_CHECKING:
         DoPreauthorized,
         CancelAuthorization,
         SetBusy,
+        OnekeyGetFeatures,
+        OnekeyFeatures,
     )
 
 
@@ -49,10 +51,12 @@ def get_features() -> Features:
     import storage  # workaround for https://github.com/microsoft/pyright/issues/2685
 
     from trezor import sdcard
-    from trezor.enums import Capability
+    from trezor.enums import Capability, OneKeyDeviceType, OneKeySeType
     from trezor.messages import Features
     from trezor import uart
     from apps.common import mnemonic, safety_checks
+
+    storage_serial_no = storage.device.get_serial()
 
     f = Features(
         vendor=get_vendor(),
@@ -75,6 +79,14 @@ def get_features() -> Features:
         bootloader_version=utils.boot_version(),
         boardloader_version=utils.board_version(),
         busy=busy_expiry_ms() > 0,
+        onekey_device_type=OneKeyDeviceType.TOUCH,
+        onekey_se_type=OneKeySeType.SE608A,
+        onekey_board_version=utils.board_version(),
+        onekey_boot_version=utils.boot_version(),
+        onekey_firmware_version=utils.ONEKEY_VERSION,
+        onekey_serial_no=storage_serial_no,
+        onekey_ble_name=uart.get_ble_name(),
+        onekey_ble_version=uart.get_ble_version(),
     )
 
     if utils.BITCOIN_ONLY:
@@ -131,6 +143,33 @@ def get_features() -> Features:
     return f
 
 
+def get_onekey_features() -> OnekeyFeatures:
+    from trezor.enums import OneKeyDeviceType, OneKeySeType
+    from trezor.messages import OnekeyFeatures
+    from trezor import uart
+
+    storage_serial_no = storage.device.get_serial()
+    f = OnekeyFeatures(
+        onekey_device_type=OneKeyDeviceType.TOUCH,
+        onekey_serial_no=storage_serial_no,
+        onekey_se_type=OneKeySeType.SE608A,
+        onekey_board_version=utils.board_version(),
+        onekey_board_hash=utils.board_hash(),
+        onekey_boot_version=utils.boot_version(),
+        onekey_boot_hash=utils.boot_hash(),
+        onekey_boot_build_id=utils.boot_build_id(),
+        onekey_firmware_version=utils.ONEKEY_VERSION,
+        onekey_firmware_build_id=utils.BUILD_ID[-7:].decode(),
+        onekey_firmware_hash=utils.firmware_hash(),
+        onekey_ble_name=uart.get_ble_name(),
+        onekey_ble_version=uart.get_ble_version(),
+        onekey_ble_build_id=uart.get_ble_build_id(),
+        onekey_ble_hash=uart.get_ble_hash(),
+    )
+
+    return f
+
+
 async def handle_Initialize(ctx: wire.Context, msg: Initialize) -> Features:
     session_id = storage.cache.start_session(msg.session_id)
 
@@ -163,6 +202,12 @@ async def handle_Initialize(ctx: wire.Context, msg: Initialize) -> Features:
 
 async def handle_GetFeatures(ctx: wire.Context, msg: GetFeatures) -> Features:
     return get_features()
+
+
+async def handle_OnekeyGetFeatures(
+    ctx: wire.Context, msg: OnekeyGetFeatures
+) -> OnekeyFeatures:
+    return get_onekey_features()
 
 
 async def handle_Cancel(ctx: wire.Context, msg: Cancel) -> Success:
@@ -290,6 +335,7 @@ ALLOW_WHILE_LOCKED = (
     MessageType.Initialize,
     MessageType.EndSession,
     MessageType.GetFeatures,
+    MessageType.OnekeyGetFeatures,
     MessageType.Cancel,
     MessageType.LockDevice,
     MessageType.DoPreauthorized,
@@ -451,6 +497,7 @@ def reload_settings_from_storage(timeout_ms: int | None = None) -> None:
 def boot() -> None:
     workflow_handlers.register(MessageType.Initialize, handle_Initialize)
     workflow_handlers.register(MessageType.GetFeatures, handle_GetFeatures)
+    workflow_handlers.register(MessageType.OnekeyGetFeatures, handle_OnekeyGetFeatures)
     workflow_handlers.register(MessageType.Cancel, handle_Cancel)
     workflow_handlers.register(MessageType.LockDevice, handle_LockDevice)
     workflow_handlers.register(MessageType.EndSession, handle_EndSession)

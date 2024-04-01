@@ -213,6 +213,9 @@ static secbool _send_msg(uint8_t iface_num, uint16_t msg_id,
 #define MSG_SEND(TYPE) \
   _send_msg(iface_num, MessageType_MessageType_##TYPE, TYPE##_fields, &msg_send)
 
+#define STR(X) #X
+#define VERSTR(X) STR(X)
+
 typedef struct {
   uint8_t iface_num;
   uint8_t packet_index;
@@ -364,9 +367,13 @@ static void send_msg_features(uint8_t iface_num,
     }
     if (ble_name_state()) {
       MSG_SEND_ASSIGN_STRING_LEN(ble_name, ble_get_name(), BLE_NAME_LEN);
+      MSG_SEND_ASSIGN_STRING_LEN(onekey_ble_name, ble_get_name(), BLE_NAME_LEN);
     }
     if (ble_ver_state()) {
-      MSG_SEND_ASSIGN_STRING_LEN(ble_ver, ble_get_ver(), 5);
+      char *ble_version = ble_get_ver();
+      MSG_SEND_ASSIGN_STRING_LEN(ble_ver, ble_version, strlen(ble_version));
+      MSG_SEND_ASSIGN_STRING_LEN(onekey_ble_version, ble_version,
+                                 strlen(ble_version));
     }
     if (ble_switch_state()) {
       MSG_SEND_ASSIGN_VALUE(ble_enable, ble_get_switch());
@@ -383,9 +390,67 @@ static void send_msg_features(uint8_t iface_num,
     char *board_version = get_boardloader_version();
     MSG_SEND_ASSIGN_STRING_LEN(boardloader_version, board_version,
                                strlen(board_version));
+    MSG_SEND_ASSIGN_STRING_LEN(onekey_board_version, board_version,
+                               strlen(board_version));
+
+    int boot_version_len = strlen((VERSTR(VERSION_MAJOR) "." VERSTR(
+        VERSION_MINOR) "." VERSTR(VERSION_PATCH)));
+    MSG_SEND_ASSIGN_STRING_LEN(onekey_boot_version,
+                               (VERSTR(VERSION_MAJOR) "." VERSTR(
+                                   VERSION_MINOR) "." VERSTR(VERSION_PATCH)),
+                               boot_version_len);
+    MSG_SEND_ASSIGN_VALUE(onekey_device_type, OneKeyDeviceType_TOUCH);
+    MSG_SEND_ASSIGN_VALUE(onekey_se_type, OneKeySeType_SE608A);
   }
 
   MSG_SEND(Features);
+}
+
+static void send_msg_features_ex(uint8_t iface_num,
+                                 const vendor_header *const vhdr,
+                                 const image_header *const hdr) {
+  MSG_SEND_INIT(OnekeyFeatures);
+
+  if (vhdr && hdr) {
+    const char *ver_str = format_ver("%d.%d.%d", hdr->onekey_version);
+    MSG_SEND_ASSIGN_STRING_LEN(onekey_firmware_version, ver_str, 5);
+
+    uint8_t *fimware_hash = get_firmware_hash();
+    MSG_SEND_ASSIGN_BYTES(onekey_firmware_hash, fimware_hash, 32);
+  }
+  if (ble_name_state()) {
+    MSG_SEND_ASSIGN_STRING_LEN(onekey_ble_name, ble_get_name(), BLE_NAME_LEN);
+  }
+  if (ble_ver_state()) {
+    char *ble_version = ble_get_ver();
+    MSG_SEND_ASSIGN_STRING_LEN(onekey_ble_version, ble_version,
+                               strlen(ble_version));
+  }
+
+  char *serial = NULL;
+  if (device_get_serial(&serial)) {
+    MSG_SEND_ASSIGN_STRING_LEN(onekey_serial_no, serial, strlen(serial));
+  }
+  char *board_version = get_boardloader_version();
+  MSG_SEND_ASSIGN_STRING_LEN(onekey_board_version, board_version,
+                             strlen(board_version));
+  uint8_t *board_hash = get_boardloader_hash();
+  MSG_SEND_ASSIGN_BYTES(onekey_board_hash, board_hash, 32);
+
+  int boot_version_len = strlen((VERSTR(VERSION_MAJOR) "." VERSTR(
+      VERSION_MINOR) "." VERSTR(VERSION_PATCH)));
+  MSG_SEND_ASSIGN_STRING_LEN(onekey_boot_version,
+                             (VERSTR(VERSION_MAJOR) "." VERSTR(
+                                 VERSION_MINOR) "." VERSTR(VERSION_PATCH)),
+                             boot_version_len);
+  uint8_t *boot_hash = get_bootloader_hash();
+  MSG_SEND_ASSIGN_BYTES(onekey_boot_hash, boot_hash, 32);
+  MSG_SEND_ASSIGN_STRING_LEN(onekey_boot_build_id, (char *)BUILD_COMMIT,
+                             strlen((char *)BUILD_COMMIT));
+  MSG_SEND_ASSIGN_VALUE(onekey_device_type, OneKeyDeviceType_TOUCH);
+  MSG_SEND_ASSIGN_VALUE(onekey_se_type, OneKeySeType_SE608A);
+
+  MSG_SEND(OnekeyFeatures);
 }
 
 void process_msg_Initialize(uint8_t iface_num, uint32_t msg_size, uint8_t *buf,
@@ -402,6 +467,15 @@ void process_msg_GetFeatures(uint8_t iface_num, uint32_t msg_size, uint8_t *buf,
   MSG_RECV_INIT(GetFeatures);
   MSG_RECV(GetFeatures);
   send_msg_features(iface_num, vhdr, hdr);
+}
+
+void process_msg_OnekeyGetFeatures(uint8_t iface_num, uint32_t msg_size,
+                                   uint8_t *buf,
+                                   const vendor_header *const vhdr,
+                                   const image_header *const hdr) {
+  MSG_RECV_INIT(OnekeyGetFeatures);
+  MSG_RECV(OnekeyGetFeatures);
+  send_msg_features_ex(iface_num, vhdr, hdr);
 }
 
 void process_msg_Ping(uint8_t iface_num, uint32_t msg_size, uint8_t *buf) {

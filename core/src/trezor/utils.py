@@ -23,6 +23,10 @@ from trezorutils import (  # noqa: F401; FIRMWARE_SECTORS_COUNT,; firmware_secto
     reboot_to_bootloader,
     reset,
     usb_data_connected,
+    board_hash,
+    boot_hash,
+    boot_build_id,
+    onekey_firmware_hash,
 )
 
 if not EMULATOR:
@@ -39,6 +43,8 @@ else:
 # pyright: on
 
 BLE_NAME: str | None = None
+BLE_BUILD_ID: str | None = None
+BLE_HASH: bytes | None = None
 DISABLE_ANIMATION = 0
 BLE_CONNECTED: bool | None = None
 BATTERY_CAP: int | None = None

@@ -26,6 +26,8 @@ _CMD_NRF_VERSION = const(5)  # ble firmware version
 _CMD_DEVICE_CHARGING_STATUS = const(8)
 _CMD_BATTERY_STATUS = const(9)
 _CMD_SIDE_BUTTON_PRESS = const(10)
+_CMD_BLE_BUILD_ID = const(16)
+_CMD_BLE_HASH = const(17)
 CHARGING = False
 SCREEN: PairCodeDisplay | None = None
 BLE_ENABLED: bool | None = None
@@ -142,6 +144,10 @@ async def process_push() -> None:
     elif cmd == _CMD_NRF_VERSION:
         # retrieve nrf version
         _retrieve_nrf_version(value)
+    elif cmd == _CMD_BLE_BUILD_ID:
+        _retrieve_ble_build_id(value)
+    elif cmd == _CMD_BLE_HASH:
+        _retrieve_ble_hash(value)
     else:
         if __debug__:
             print("unknown or not care command:", cmd)
@@ -267,6 +273,16 @@ def _retrieve_nrf_version(value: bytes) -> None:
         #     device.set_ble_version(NRF_VERSION)
 
 
+def _retrieve_ble_build_id(value: bytes) -> None:
+    if value != b"":
+        utils.BLE_BUILD_ID = value.decode("utf-8")
+
+
+def _retrieve_ble_hash(value: bytes) -> None:
+    if value != b"":
+        utils.BLE_HASH = value
+
+
 def _request_ble_name():
     """Request ble name."""
     BLE_CTRL.ctrl(0x83, 0x01)
@@ -313,6 +329,12 @@ def fetch_ble_info():
     if BLE_ENABLED is None:
         BLE_CTRL.ctrl(0x81, 0x04)
 
+    if utils.BLE_BUILD_ID is None:
+        BLE_CTRL.ctrl(0x83, 0x05)
+
+    if utils.BLE_HASH is None:
+        BLE_CTRL.ctrl(0x83, 0x06)
+
 
 def ctrl_ble(enable: bool) -> None:
     """Request to open or close ble.
@@ -337,6 +359,14 @@ def get_ble_name() -> str:
 def get_ble_version() -> str:
     """Get ble version."""
     return NRF_VERSION if NRF_VERSION else ""
+
+
+def get_ble_build_id() -> str:
+    return utils.BLE_BUILD_ID if utils.BLE_BUILD_ID else ""
+
+
+def get_ble_hash() -> bytes:
+    return utils.BLE_HASH if utils.BLE_HASH else b""
 
 
 def is_ble_opened() -> bool:

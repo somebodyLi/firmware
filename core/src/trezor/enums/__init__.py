@@ -396,6 +396,8 @@ if TYPE_CHECKING:
         ResourceUpdate = 10022
         ListResDir = 10023
         FileInfoList = 10024
+        OnekeyGetFeatures = 10025
+        OnekeyFeatures = 10026
 
     class FailureType(IntEnum):
         UnexpectedMessage = 1
@@ -553,6 +555,17 @@ if TYPE_CHECKING:
         Strict = 0
         PromptAlways = 1
         PromptTemporarily = 2
+
+    class OneKeyDeviceType(IntEnum):
+        CLASSIC = 0
+        CLASSIC1S = 1
+        MINI = 2
+        TOUCH = 3
+        PRO = 5
+
+    class OneKeySeType(IntEnum):
+        THD89 = 0
+        SE608A = 1
 
     class Capability(IntEnum):
         Bitcoin = 1

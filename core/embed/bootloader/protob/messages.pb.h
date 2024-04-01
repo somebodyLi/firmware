@@ -34,6 +34,8 @@ typedef enum _MessageType {
     MessageType_MessageType_SEPublicCert = 10008, 
     MessageType_MessageType_SESignMessage = 10012, 
     MessageType_MessageType_SEMessageSignature = 10013, 
+    MessageType_MessageType_OnekeyGetFeatures = 10025, 
+    MessageType_MessageType_OnekeyFeatures = 10026, 
     MessageType_MessageType_Reboot = 30000, 
     MessageType_MessageType_FirmwareUpdateEmmc = 30001, 
     MessageType_MessageType_EmmcFixPermission = 30100, 
@@ -48,6 +50,19 @@ typedef enum _MessageType {
     MessageType_MessageType_EmmcDirMake = 30109, 
     MessageType_MessageType_EmmcDirRemove = 30110 
 } MessageType;
+
+typedef enum _OneKeyDeviceType { 
+    OneKeyDeviceType_CLASSIC = 0, 
+    OneKeyDeviceType_CLASSIC1S = 1, 
+    OneKeyDeviceType_MINI = 2, 
+    OneKeyDeviceType_TOUCH = 3, 
+    OneKeyDeviceType_PRO = 5 
+} OneKeyDeviceType;
+
+typedef enum _OneKeySeType { 
+    OneKeySeType_THD89 = 0, 
+    OneKeySeType_SE608A = 1 
+} OneKeySeType;
 
 typedef enum _RebootType { 
     RebootType_Normal = 0, 
@@ -86,6 +101,10 @@ typedef struct _GetFeatures {
 typedef struct _Initialize { 
     char dummy_field;
 } Initialize;
+
+typedef struct _OnekeyGetFeatures { 
+    char dummy_field;
+} OnekeyGetFeatures;
 
 typedef struct _ReadSEPublicCert { 
     char dummy_field;
@@ -190,6 +209,9 @@ typedef struct _Failure {
 } Failure;
 
 typedef PB_BYTES_ARRAY_T(20) Features_revision_t;
+typedef PB_BYTES_ARRAY_T(32) Features_onekey_board_hash_t;
+typedef PB_BYTES_ARRAY_T(32) Features_onekey_boot_hash_t;
+typedef PB_BYTES_ARRAY_T(32) Features_onekey_firmware_hash_t;
 typedef struct _Features { 
     bool has_vendor;
     char vendor[33]; 
@@ -244,6 +266,32 @@ typedef struct _Features {
     uint32_t initstates; 
     bool has_boardloader_version;
     char boardloader_version[32]; 
+    bool has_onekey_device_type;
+    OneKeyDeviceType onekey_device_type; 
+    bool has_onekey_se_type;
+    OneKeySeType onekey_se_type; 
+    bool has_onekey_board_version;
+    char onekey_board_version[32]; 
+    bool has_onekey_board_hash;
+    Features_onekey_board_hash_t onekey_board_hash; 
+    bool has_onekey_boot_version;
+    char onekey_boot_version[16]; 
+    bool has_onekey_boot_hash;
+    Features_onekey_boot_hash_t onekey_boot_hash; 
+    bool has_onekey_firmware_version;
+    char onekey_firmware_version[16]; 
+    bool has_onekey_firmware_hash;
+    Features_onekey_firmware_hash_t onekey_firmware_hash; 
+    bool has_onekey_firmware_build_id;
+    char onekey_firmware_build_id[64]; 
+    bool has_onekey_serial_no;
+    char onekey_serial_no[32]; 
+    bool has_onekey_boot_build_id;
+    char onekey_boot_build_id[8]; 
+    bool has_onekey_ble_name;
+    char onekey_ble_name[32]; 
+    bool has_onekey_ble_version;
+    char onekey_ble_version[16]; 
 } Features;
 
 typedef struct _FirmwareErase { 
@@ -275,6 +323,45 @@ typedef struct _FirmwareUpload {
     bool has_hash;
     FirmwareUpload_hash_t hash; 
 } FirmwareUpload;
+
+typedef PB_BYTES_ARRAY_T(32) OnekeyFeatures_onekey_board_hash_t;
+typedef PB_BYTES_ARRAY_T(32) OnekeyFeatures_onekey_boot_hash_t;
+typedef PB_BYTES_ARRAY_T(32) OnekeyFeatures_onekey_firmware_hash_t;
+typedef PB_BYTES_ARRAY_T(32) OnekeyFeatures_onekey_ble_hash_t;
+typedef struct _OnekeyFeatures { 
+    bool has_onekey_device_type;
+    OneKeyDeviceType onekey_device_type; 
+    bool has_onekey_board_version;
+    char onekey_board_version[32]; 
+    bool has_onekey_boot_version;
+    char onekey_boot_version[16]; 
+    bool has_onekey_firmware_version;
+    char onekey_firmware_version[16]; 
+    bool has_onekey_board_hash;
+    OnekeyFeatures_onekey_board_hash_t onekey_board_hash; 
+    bool has_onekey_boot_hash;
+    OnekeyFeatures_onekey_boot_hash_t onekey_boot_hash; 
+    bool has_onekey_firmware_hash;
+    OnekeyFeatures_onekey_firmware_hash_t onekey_firmware_hash; 
+    bool has_onekey_board_build_id;
+    char onekey_board_build_id[8]; 
+    bool has_onekey_boot_build_id;
+    char onekey_boot_build_id[8]; 
+    bool has_onekey_firmware_build_id;
+    char onekey_firmware_build_id[64]; 
+    bool has_onekey_serial_no;
+    char onekey_serial_no[32]; 
+    bool has_onekey_ble_name;
+    char onekey_ble_name[32]; 
+    bool has_onekey_ble_version;
+    char onekey_ble_version[16]; 
+    bool has_onekey_ble_build_id;
+    char onekey_ble_build_id[8]; 
+    bool has_onekey_ble_hash;
+    OnekeyFeatures_onekey_ble_hash_t onekey_ble_hash; 
+    bool has_onekey_se_type;
+    OneKeySeType onekey_se_type; 
+} OnekeyFeatures;
 
 typedef struct _Ping { 
     bool has_message;
@@ -335,6 +422,14 @@ typedef struct _EmmcFileWrite {
 #define _MessageType_MAX MessageType_MessageType_EmmcDirRemove
 #define _MessageType_ARRAYSIZE ((MessageType)(MessageType_MessageType_EmmcDirRemove+1))
 
+#define _OneKeyDeviceType_MIN OneKeyDeviceType_CLASSIC
+#define _OneKeyDeviceType_MAX OneKeyDeviceType_PRO
+#define _OneKeyDeviceType_ARRAYSIZE ((OneKeyDeviceType)(OneKeyDeviceType_PRO+1))
+
+#define _OneKeySeType_MIN OneKeySeType_THD89
+#define _OneKeySeType_MAX OneKeySeType_SE608A
+#define _OneKeySeType_ARRAYSIZE ((OneKeySeType)(OneKeySeType_SE608A+1))
+
 #define _RebootType_MIN RebootType_Normal
 #define _RebootType_MAX RebootType_BootLoader
 #define _RebootType_ARRAYSIZE ((RebootType)(RebootType_BootLoader+1))
@@ -355,7 +450,9 @@ extern "C" {
 /* Initializer values for message structs */
 #define Initialize_init_default                  {0}
 #define GetFeatures_init_default                 {0}
-#define Features_init_default                    {false, "", 0, 0, 0, false, 0, false, "", false, "", false, "", false, 0, false, {0, {0}}, false, 0, false, "", false, 0, false, 0, false, 0, false, "", false, 0, false, "", false, "", false, 0, false, 0, false, "", false, 0, false, "", false, "", false, "", false, 0, false, ""}
+#define OnekeyGetFeatures_init_default           {0}
+#define Features_init_default                    {false, "", 0, 0, 0, false, 0, false, "", false, "", false, "", false, 0, false, {0, {0}}, false, 0, false, "", false, 0, false, 0, false, 0, false, "", false, 0, false, "", false, "", false, 0, false, 0, false, "", false, 0, false, "", false, "", false, "", false, 0, false, "", false, _OneKeyDeviceType_MIN, false, _OneKeySeType_MIN, false, "", false, {0, {0}}, false, "", false, {0, {0}}, false, "", false, {0, {0}}, false, "", false, "", false, "", false, "", false, ""}
+#define OnekeyFeatures_init_default              {false, _OneKeyDeviceType_MIN, false, "", false, "", false, "", false, {0, {0}}, false, {0, {0}}, false, {0, {0}}, false, "", false, "", false, "", false, "", false, "", false, "", false, "", false, {0, {0}}, false, _OneKeySeType_MIN}
 #define Ping_init_default                        {false, ""}
 #define Success_init_default                     {false, ""}
 #define Failure_init_default                     {false, _FailureType_MIN, false, ""}
@@ -391,7 +488,9 @@ extern "C" {
 #define SEMessageSignature_init_default          {{0, {0}}}
 #define Initialize_init_zero                     {0}
 #define GetFeatures_init_zero                    {0}
-#define Features_init_zero                       {false, "", 0, 0, 0, false, 0, false, "", false, "", false, "", false, 0, false, {0, {0}}, false, 0, false, "", false, 0, false, 0, false, 0, false, "", false, 0, false, "", false, "", false, 0, false, 0, false, "", false, 0, false, "", false, "", false, "", false, 0, false, ""}
+#define OnekeyGetFeatures_init_zero              {0}
+#define Features_init_zero                       {false, "", 0, 0, 0, false, 0, false, "", false, "", false, "", false, 0, false, {0, {0}}, false, 0, false, "", false, 0, false, 0, false, 0, false, "", false, 0, false, "", false, "", false, 0, false, 0, false, "", false, 0, false, "", false, "", false, "", false, 0, false, "", false, _OneKeyDeviceType_MIN, false, _OneKeySeType_MIN, false, "", false, {0, {0}}, false, "", false, {0, {0}}, false, "", false, {0, {0}}, false, "", false, "", false, "", false, "", false, ""}
+#define OnekeyFeatures_init_zero                 {false, _OneKeyDeviceType_MIN, false, "", false, "", false, "", false, {0, {0}}, false, {0, {0}}, false, {0, {0}}, false, "", false, "", false, "", false, "", false, "", false, "", false, "", false, {0, {0}}, false, _OneKeySeType_MIN}
 #define Ping_init_zero                           {false, ""}
 #define Success_init_zero                        {false, ""}
 #define Failure_init_zero                        {false, _FailureType_MIN, false, ""}
@@ -494,6 +593,19 @@ extern "C" {
 #define Features_serial_no_tag                   511
 #define Features_initstates_tag                  513
 #define Features_boardloader_version_tag         519
+#define Features_onekey_device_type_tag          600
+#define Features_onekey_se_type_tag              601
+#define Features_onekey_board_version_tag        602
+#define Features_onekey_board_hash_tag           603
+#define Features_onekey_boot_version_tag         604
+#define Features_onekey_boot_hash_tag            605
+#define Features_onekey_firmware_version_tag     609
+#define Features_onekey_firmware_hash_tag        610
+#define Features_onekey_firmware_build_id_tag    611
+#define Features_onekey_serial_no_tag            612
+#define Features_onekey_boot_build_id_tag        613
+#define Features_onekey_ble_name_tag             614
+#define Features_onekey_ble_version_tag          615
 #define FirmwareErase_length_tag                 1
 #define FirmwareErase_ex_length_tag              1
 #define FirmwareRequest_offset_tag               1
@@ -502,6 +614,22 @@ extern "C" {
 #define FirmwareUpdateEmmc_reboot_on_success_tag 2
 #define FirmwareUpload_payload_tag               1
 #define FirmwareUpload_hash_tag                  2
+#define OnekeyFeatures_onekey_device_type_tag    1
+#define OnekeyFeatures_onekey_board_version_tag  2
+#define OnekeyFeatures_onekey_boot_version_tag   3
+#define OnekeyFeatures_onekey_firmware_version_tag 4
+#define OnekeyFeatures_onekey_board_hash_tag     5
+#define OnekeyFeatures_onekey_boot_hash_tag      6
+#define OnekeyFeatures_onekey_firmware_hash_tag  7
+#define OnekeyFeatures_onekey_board_build_id_tag 8
+#define OnekeyFeatures_onekey_boot_build_id_tag  9
+#define OnekeyFeatures_onekey_firmware_build_id_tag 10
+#define OnekeyFeatures_onekey_serial_no_tag      11
+#define OnekeyFeatures_onekey_ble_name_tag       12
+#define OnekeyFeatures_onekey_ble_version_tag    13
+#define OnekeyFeatures_onekey_ble_build_id_tag   14
+#define OnekeyFeatures_onekey_ble_hash_tag       15
+#define OnekeyFeatures_onekey_se_type_tag        16
 #define Ping_message_tag                         1
 #define Reboot_reboot_type_tag                   1
 #define SEMessageSignature_signature_tag         1
@@ -527,6 +655,11 @@ extern "C" {
 
 #define GetFeatures_CALLBACK NULL
 #define GetFeatures_DEFAULT NULL
+
+#define OnekeyGetFeatures_FIELDLIST(X, a) \
+
+#define OnekeyGetFeatures_CALLBACK NULL
+#define OnekeyGetFeatures_DEFAULT NULL
 
 #define Features_FIELDLIST(X, a) \
 X(a, STATIC,   OPTIONAL, STRING,   vendor,            1) \
@@ -556,9 +689,42 @@ X(a, STATIC,   OPTIONAL, STRING,   onekey_version,  508) \
 X(a, STATIC,   OPTIONAL, STRING,   bootloader_version, 510) \
 X(a, STATIC,   OPTIONAL, STRING,   serial_no,       511) \
 X(a, STATIC,   OPTIONAL, UINT32,   initstates,      513) \
-X(a, STATIC,   OPTIONAL, STRING,   boardloader_version, 519)
+X(a, STATIC,   OPTIONAL, STRING,   boardloader_version, 519) \
+X(a, STATIC,   OPTIONAL, UENUM,    onekey_device_type, 600) \
+X(a, STATIC,   OPTIONAL, UENUM,    onekey_se_type,  601) \
+X(a, STATIC,   OPTIONAL, STRING,   onekey_board_version, 602) \
+X(a, STATIC,   OPTIONAL, BYTES,    onekey_board_hash, 603) \
+X(a, STATIC,   OPTIONAL, STRING,   onekey_boot_version, 604) \
+X(a, STATIC,   OPTIONAL, BYTES,    onekey_boot_hash, 605) \
+X(a, STATIC,   OPTIONAL, STRING,   onekey_firmware_version, 609) \
+X(a, STATIC,   OPTIONAL, BYTES,    onekey_firmware_hash, 610) \
+X(a, STATIC,   OPTIONAL, STRING,   onekey_firmware_build_id, 611) \
+X(a, STATIC,   OPTIONAL, STRING,   onekey_serial_no, 612) \
+X(a, STATIC,   OPTIONAL, STRING,   onekey_boot_build_id, 613) \
+X(a, STATIC,   OPTIONAL, STRING,   onekey_ble_name, 614) \
+X(a, STATIC,   OPTIONAL, STRING,   onekey_ble_version, 615)
 #define Features_CALLBACK NULL
 #define Features_DEFAULT NULL
+
+#define OnekeyFeatures_FIELDLIST(X, a) \
+X(a, STATIC,   OPTIONAL, UENUM,    onekey_device_type,   1) \
+X(a, STATIC,   OPTIONAL, STRING,   onekey_board_version,   2) \
+X(a, STATIC,   OPTIONAL, STRING,   onekey_boot_version,   3) \
+X(a, STATIC,   OPTIONAL, STRING,   onekey_firmware_version,   4) \
+X(a, STATIC,   OPTIONAL, BYTES,    onekey_board_hash,   5) \
+X(a, STATIC,   OPTIONAL, BYTES,    onekey_boot_hash,   6) \
+X(a, STATIC,   OPTIONAL, BYTES,    onekey_firmware_hash,   7) \
+X(a, STATIC,   OPTIONAL, STRING,   onekey_board_build_id,   8) \
+X(a, STATIC,   OPTIONAL, STRING,   onekey_boot_build_id,   9) \
+X(a, STATIC,   OPTIONAL, STRING,   onekey_firmware_build_id,  10) \
+X(a, STATIC,   OPTIONAL, STRING,   onekey_serial_no,  11) \
+X(a, STATIC,   OPTIONAL, STRING,   onekey_ble_name,  12) \
+X(a, STATIC,   OPTIONAL, STRING,   onekey_ble_version,  13) \
+X(a, STATIC,   OPTIONAL, STRING,   onekey_ble_build_id,  14) \
+X(a, STATIC,   OPTIONAL, BYTES,    onekey_ble_hash,  15) \
+X(a, STATIC,   OPTIONAL, UENUM,    onekey_se_type,   16)
+#define OnekeyFeatures_CALLBACK NULL
+#define OnekeyFeatures_DEFAULT NULL
 
 #define Ping_FIELDLIST(X, a) \
 X(a, STATIC,   OPTIONAL, STRING,   message,           1)
@@ -763,7 +929,9 @@ X(a, STATIC,   REQUIRED, BYTES,    signature,         1)
 
 extern const pb_msgdesc_t Initialize_msg;
 extern const pb_msgdesc_t GetFeatures_msg;
+extern const pb_msgdesc_t OnekeyGetFeatures_msg;
 extern const pb_msgdesc_t Features_msg;
+extern const pb_msgdesc_t OnekeyFeatures_msg;
 extern const pb_msgdesc_t Ping_msg;
 extern const pb_msgdesc_t Success_msg;
 extern const pb_msgdesc_t Failure_msg;
@@ -801,7 +969,9 @@ extern const pb_msgdesc_t SEMessageSignature_msg;
 /* Defines for backwards compatibility with code written before nanopb-0.4.0 */
 #define Initialize_fields &Initialize_msg
 #define GetFeatures_fields &GetFeatures_msg
+#define OnekeyGetFeatures_fields &OnekeyGetFeatures_msg
 #define Features_fields &Features_msg
+#define OnekeyFeatures_fields &OnekeyFeatures_msg
 #define Ping_fields &Ping_msg
 #define Success_fields &Success_msg
 #define Failure_fields &Failure_msg
@@ -854,7 +1024,7 @@ extern const pb_msgdesc_t SEMessageSignature_msg;
 #define EmmcPathInfo_size                        258
 #define EmmcPath_size                            59
 #define Failure_size                             260
-#define Features_size                            663
+#define Features_size                            1006
 #define FirmwareErase_ex_size                    6
 #define FirmwareErase_size                       6
 #define FirmwareRequest_size                     12
@@ -862,6 +1032,8 @@ extern const pb_msgdesc_t SEMessageSignature_msg;
 #define GetDeviceInfo_size                       0
 #define GetFeatures_size                         0
 #define Initialize_size                          0
+#define OnekeyFeatures_size                      383
+#define OnekeyGetFeatures_size                   0
 #define Ping_size                                258
 #define ReadSEPublicCert_size                    0
 #define ReadSEPublicKey_size                     0

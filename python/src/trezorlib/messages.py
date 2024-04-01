@@ -404,6 +404,8 @@ class MessageType(IntEnum):
     ResourceUpdate = 10022
     ListResDir = 10023
     FileInfoList = 10024
+    OnekeyGetFeatures = 10025
+    OnekeyFeatures = 10026
 
 
 class FailureType(IntEnum):
@@ -588,6 +590,19 @@ class SafetyCheckLevel(IntEnum):
     Strict = 0
     PromptAlways = 1
     PromptTemporarily = 2
+
+
+class OneKeyDeviceType(IntEnum):
+    CLASSIC = 0
+    CLASSIC1S = 1
+    MINI = 2
+    TOUCH = 3
+    PRO = 5
+
+
+class OneKeySeType(IntEnum):
+    THD89 = 0
+    SE608A = 1
 
 
 class Capability(IntEnum):
@@ -3825,6 +3840,10 @@ class GetFeatures(protobuf.MessageType):
     MESSAGE_WIRE_TYPE = 55
 
 
+class OnekeyGetFeatures(protobuf.MessageType):
+    MESSAGE_WIRE_TYPE = 10025
+
+
 class Features(protobuf.MessageType):
     MESSAGE_WIRE_TYPE = 17
     FIELDS = {
@@ -3886,6 +3905,21 @@ class Features(protobuf.MessageType):
         518: protobuf.Field("build_id", "bytes", repeated=False, required=False),
         519: protobuf.Field("boardloader_version", "string", repeated=False, required=False),
         41: protobuf.Field("busy", "bool", repeated=False, required=False),
+        600: protobuf.Field("onekey_device_type", "OneKeyDeviceType", repeated=False, required=False),
+        601: protobuf.Field("onekey_se_type", "OneKeySeType", repeated=False, required=False),
+        602: protobuf.Field("onekey_board_version", "string", repeated=False, required=False),
+        603: protobuf.Field("onekey_board_hash", "bytes", repeated=False, required=False),
+        604: protobuf.Field("onekey_boot_version", "string", repeated=False, required=False),
+        605: protobuf.Field("onekey_boot_hash", "bytes", repeated=False, required=False),
+        609: protobuf.Field("onekey_firmware_version", "string", repeated=False, required=False),
+        610: protobuf.Field("onekey_firmware_hash", "bytes", repeated=False, required=False),
+        611: protobuf.Field("onekey_firmware_build_id", "string", repeated=False, required=False),
+        612: protobuf.Field("onekey_serial_no", "string", repeated=False, required=False),
+        613: protobuf.Field("onekey_boot_build_id", "string", repeated=False, required=False),
+        614: protobuf.Field("onekey_ble_name", "string", repeated=False, required=False),
+        615: protobuf.Field("onekey_ble_version", "string", repeated=False, required=False),
+        616: protobuf.Field("onekey_ble_build_id", "string", repeated=False, required=False),
+        617: protobuf.Field("onekey_ble_hash", "bytes", repeated=False, required=False),
     }
 
     def __init__(
@@ -3949,6 +3983,21 @@ class Features(protobuf.MessageType):
         build_id: Optional["bytes"] = None,
         boardloader_version: Optional["str"] = None,
         busy: Optional["bool"] = None,
+        onekey_device_type: Optional["OneKeyDeviceType"] = None,
+        onekey_se_type: Optional["OneKeySeType"] = None,
+        onekey_board_version: Optional["str"] = None,
+        onekey_board_hash: Optional["bytes"] = None,
+        onekey_boot_version: Optional["str"] = None,
+        onekey_boot_hash: Optional["bytes"] = None,
+        onekey_firmware_version: Optional["str"] = None,
+        onekey_firmware_hash: Optional["bytes"] = None,
+        onekey_firmware_build_id: Optional["str"] = None,
+        onekey_serial_no: Optional["str"] = None,
+        onekey_boot_build_id: Optional["str"] = None,
+        onekey_ble_name: Optional["str"] = None,
+        onekey_ble_version: Optional["str"] = None,
+        onekey_ble_build_id: Optional["str"] = None,
+        onekey_ble_hash: Optional["bytes"] = None,
     ) -> None:
         self.capabilities: Sequence["Capability"] = capabilities if capabilities is not None else []
         self.major_version = major_version
@@ -4008,6 +4057,80 @@ class Features(protobuf.MessageType):
         self.build_id = build_id
         self.boardloader_version = boardloader_version
         self.busy = busy
+        self.onekey_device_type = onekey_device_type
+        self.onekey_se_type = onekey_se_type
+        self.onekey_board_version = onekey_board_version
+        self.onekey_board_hash = onekey_board_hash
+        self.onekey_boot_version = onekey_boot_version
+        self.onekey_boot_hash = onekey_boot_hash
+        self.onekey_firmware_version = onekey_firmware_version
+        self.onekey_firmware_hash = onekey_firmware_hash
+        self.onekey_firmware_build_id = onekey_firmware_build_id
+        self.onekey_serial_no = onekey_serial_no
+        self.onekey_boot_build_id = onekey_boot_build_id
+        self.onekey_ble_name = onekey_ble_name
+        self.onekey_ble_version = onekey_ble_version
+        self.onekey_ble_build_id = onekey_ble_build_id
+        self.onekey_ble_hash = onekey_ble_hash
+
+
+class OnekeyFeatures(protobuf.MessageType):
+    MESSAGE_WIRE_TYPE = 10026
+    FIELDS = {
+        1: protobuf.Field("onekey_device_type", "OneKeyDeviceType", repeated=False, required=False),
+        2: protobuf.Field("onekey_board_version", "string", repeated=False, required=False),
+        3: protobuf.Field("onekey_boot_version", "string", repeated=False, required=False),
+        4: protobuf.Field("onekey_firmware_version", "string", repeated=False, required=False),
+        5: protobuf.Field("onekey_board_hash", "bytes", repeated=False, required=False),
+        6: protobuf.Field("onekey_boot_hash", "bytes", repeated=False, required=False),
+        7: protobuf.Field("onekey_firmware_hash", "bytes", repeated=False, required=False),
+        8: protobuf.Field("onekey_board_build_id", "string", repeated=False, required=False),
+        9: protobuf.Field("onekey_boot_build_id", "string", repeated=False, required=False),
+        10: protobuf.Field("onekey_firmware_build_id", "string", repeated=False, required=False),
+        11: protobuf.Field("onekey_serial_no", "string", repeated=False, required=False),
+        12: protobuf.Field("onekey_ble_name", "string", repeated=False, required=False),
+        13: protobuf.Field("onekey_ble_version", "string", repeated=False, required=False),
+        14: protobuf.Field("onekey_ble_build_id", "string", repeated=False, required=False),
+        15: protobuf.Field("onekey_ble_hash", "bytes", repeated=False, required=False),
+        16: protobuf.Field("onekey_se_type", "OneKeySeType", repeated=False, required=False),
+    }
+
+    def __init__(
+        self,
+        *,
+        onekey_device_type: Optional["OneKeyDeviceType"] = None,
+        onekey_board_version: Optional["str"] = None,
+        onekey_boot_version: Optional["str"] = None,
+        onekey_firmware_version: Optional["str"] = None,
+        onekey_board_hash: Optional["bytes"] = None,
+        onekey_boot_hash: Optional["bytes"] = None,
+        onekey_firmware_hash: Optional["bytes"] = None,
+        onekey_board_build_id: Optional["str"] = None,
+        onekey_boot_build_id: Optional["str"] = None,
+        onekey_firmware_build_id: Optional["str"] = None,
+        onekey_serial_no: Optional["str"] = None,
+        onekey_ble_name: Optional["str"] = None,
+        onekey_ble_version: Optional["str"] = None,
+        onekey_ble_build_id: Optional["str"] = None,
+        onekey_ble_hash: Optional["bytes"] = None,
+        onekey_se_type: Optional["OneKeySeType"] = None,
+    ) -> None:
+        self.onekey_device_type = onekey_device_type
+        self.onekey_board_version = onekey_board_version
+        self.onekey_boot_version = onekey_boot_version
+        self.onekey_firmware_version = onekey_firmware_version
+        self.onekey_board_hash = onekey_board_hash
+        self.onekey_boot_hash = onekey_boot_hash
+        self.onekey_firmware_hash = onekey_firmware_hash
+        self.onekey_board_build_id = onekey_board_build_id
+        self.onekey_boot_build_id = onekey_boot_build_id
+        self.onekey_firmware_build_id = onekey_firmware_build_id
+        self.onekey_serial_no = onekey_serial_no
+        self.onekey_ble_name = onekey_ble_name
+        self.onekey_ble_version = onekey_ble_version
+        self.onekey_ble_build_id = onekey_ble_build_id
+        self.onekey_ble_hash = onekey_ble_hash
+        self.onekey_se_type = onekey_se_type
 
 
 class LockDevice(protobuf.MessageType):
