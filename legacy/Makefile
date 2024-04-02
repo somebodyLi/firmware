@@ -61,7 +61,7 @@ vendor:
 	git submodule update --init --recursive
 
 build_unix: ## build unix port
-	./script/setup
+	# ./script/setup
 	EMULATOR=1 DEBUG_LINK=1 ./script/cibuild
 
 test_emu: ## run integration tests

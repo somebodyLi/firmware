@@ -1,0 +1,15 @@
+DnxGetAddress.address_n                                   max_count:8
+DnxAddress.address                                        max_size:98
+
+DnxUploadTxInfo.address_n                                         max_count:8
+DnxUploadTxInfo.to_address                                          max_size:98
+DnxUploadTxInfo.payment_id                                           max_size:32
+DnxTxKey.ephemeral_tx_sec_key                                max_size:32
+DnxTxKey.ephemeral_tx_pub_key                                        max_size:32
+
+DnxInputAck.tx_pubkey                                      max_size:32
+
+DnxOutputKey.ephemeral_output_key                              max_count:2 max_size:64
+DnxComputedKeyImage.key_image                                  max_size:32
+DnxComputedKeyImage.ephemeral_sec_key                              max_size:32
+# DnxComputedKeyImage.ephemeral_pub_key                              max_size:32

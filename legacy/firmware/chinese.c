@@ -1,7 +1,11 @@
 #include "chinese.h"
 #include "font.h"
 #include "oled.h"
+#include "buttons.h"
+#include "layout2.h"
+#include "protect.h"
 
+extern void drawScrollbar(int pages, int index);
 int oledStringWidthAdapter(const char *text, uint8_t font) {
   if (!text) return 0;
   const struct font_desc *font_dese = find_cur_font();
@@ -122,4 +126,64 @@ void oledDrawStringRightAdapter(int x, int y, const char *text, uint8_t font) {
   if (!text) return;
   x -= oledStringWidthAdapter(text, font);
   oledDrawStringAdapter(x, y, text, font);
+}
+
+void oledDrawPageableStringAdapter(int x, int y, const char *text, uint8_t font) {
+    size_t text_len = strlen(text);
+    uint32_t rowlen = 21;
+    int index = 0, rowcount = text_len / rowlen + 1;
+    if (rowcount > 3) {
+      const char **str =
+          split_message((const uint8_t *)text, text_len, rowlen);
+
+    refresh_text:
+      oledClear_ext(x, y);
+      int y1 = y;
+      y1++;
+      if (0 == index) {
+        oledDrawStringAdapter(x, y1, str[0], font);
+        oledDrawStringAdapter(x, y1 + 1 * 10, str[1], font);
+        oledDrawStringAdapter(x, y1 + 2 * 10, str[2], font);
+        oledDrawBitmap(3 * OLED_WIDTH / 4 - 8, OLED_HEIGHT - 8,
+                       &bmp_bottom_middle_arrow_down);
+      } else {
+        oledDrawStringAdapter(x, y1, str[index], font);
+        oledDrawStringAdapter(x, y1 + 1 * 10, str[index+1], font);
+        oledDrawStringAdapter(x, y1 + 2 * 10, str[index + 2], font);
+        if (index == rowcount - 2) {
+          oledDrawBitmap(OLED_WIDTH / 4, OLED_HEIGHT - 8,
+                         &bmp_bottom_middle_arrow_up);
+        } else {
+          oledDrawBitmap(OLED_WIDTH / 4, OLED_HEIGHT - 8,
+                         &bmp_bottom_middle_arrow_up);
+          oledDrawBitmap(3 * OLED_WIDTH / 4 - 8, OLED_HEIGHT - 8,
+                         &bmp_bottom_middle_arrow_down);
+        }
+        if (index == rowcount - 3) {
+          drawScrollbar(rowcount - 3, index);
+          goto exist;
+        }
+      }
+      // scrollbar
+      drawScrollbar(rowcount - 2, index);
+      oledRefresh();
+      uint8_t key = KEY_NULL;
+      key = protectWaitKey(0, 0);
+      switch (key) {
+        case KEY_UP:
+          if (index > 0) {
+            index--;
+          }
+          goto refresh_text;
+        case KEY_DOWN:
+          if (index < rowcount - 3) {
+            index++;
+          }
+          goto refresh_text;
+        default:
+          break;
+      }
+    }
+    exist:
+      return;
 }

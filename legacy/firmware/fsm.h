@@ -47,6 +47,7 @@
 #include "messages-stellar.pb.h"
 #include "messages-sui.pb.h"
 #include "messages-tron.pb.h"
+#include "messages-dynex.pb.h"
 
 // CoinJoin fee rate multiplier.
 #define FEE_RATE_DECIMALS (1000000)
@@ -319,5 +320,11 @@ void fsm_msgLnurlAuth(const LnurlAuth *msg);
 void fsm_msgNervosGetAddress(const NervosGetAddress *msg);
 void fsm_msgNervosSignTx(const NervosSignTx *msg);
 void fsm_msgNervosTxAck(const NervosTxAck *msg);
+
+// dynex
+void fsm_msgDnxGetAddress(const DnxGetAddress *msg);
+void fsm_msgDnxUploadTxInfo(const DnxUploadTxInfo *msg);
+void fsm_msgDnxInputAck(const DnxInputAck *msg);
+void fsm_msgDnxGetOutputKey(const DnxGetOutputKey* msg);
 
 #endif

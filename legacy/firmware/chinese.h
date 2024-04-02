@@ -12,5 +12,5 @@ void oledDrawNumber_zh(int x, int y, const char font);
 void oledDrawStringAdapter(int x, int y, const char *text, uint8_t font);
 void oledDrawStringCenterAdapter(int x, int y, const char *text, uint8_t font);
 void oledDrawStringRightAdapter(int x, int y, const char *text, uint8_t font);
-
+void oledDrawPageableStringAdapter(int x, int y, const char *text, uint8_t font);
 #endif
