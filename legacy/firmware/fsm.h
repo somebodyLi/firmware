@@ -29,6 +29,7 @@
 #include "messages-cosmos.pb.h"
 #include "messages-crypto.pb.h"
 #include "messages-debug.pb.h"
+#include "messages-dynex.pb.h"
 #include "messages-ethereum-onekey.pb.h"
 #include "messages-ethereum.pb.h"
 #include "messages-filecoin.pb.h"
@@ -148,7 +149,6 @@ void fsm_msgEthereumSignTxEIP1559OneKey(const EthereumSignTxEIP1559OneKey *msg);
 void fsm_msgEthereumTxAckOneKey(const EthereumTxAckOneKey *msg);
 void fsm_msgEthereumSignMessageOneKey(const EthereumSignMessageOneKey *msg);
 void fsm_msgEthereumVerifyMessageOneKey(const EthereumVerifyMessageOneKey *msg);
-void fsm_msgEthereumSignMessageEIP712(const EthereumSignMessageEIP712 *msg);
 void fsm_msgEthereumSignTypedHashOneKey(const EthereumSignTypedHashOneKey *msg);
 
 // nem
@@ -320,4 +320,9 @@ void fsm_msgNervosGetAddress(const NervosGetAddress *msg);
 void fsm_msgNervosSignTx(const NervosSignTx *msg);
 void fsm_msgNervosTxAck(const NervosTxAck *msg);
 
+// dynex
+void fsm_msgDnxGetAddress(const DnxGetAddress *msg);
+void fsm_msgDnxSignTx(const DnxSignTx *msg);
+void fsm_msgDnxInputAck(const DnxInputAck *msg);
+void fsm_msgDnxRTSigsRequest(const DnxRTSigsRequest *msg);
 #endif

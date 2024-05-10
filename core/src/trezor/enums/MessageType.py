@@ -280,7 +280,6 @@ if not utils.BITCOIN_ONLY:
     BixinBackupDevice = 914
     BixinBackupDeviceAck = 915
     BixinPinInputOnDevice = 10000
-    EthereumSignMessageEIP712 = 10200
     GetPublicKeyMultiple = 10210
     PublicKeyMultiple = 10211
     ConfluxGetAddress = 10112
@@ -355,3 +354,10 @@ if not utils.BITCOIN_ONLY:
     NervosSignedTx = 11704
     NervosTxRequest = 11705
     NervosTxAck = 11706
+    DnxGetAddress = 11800
+    DnxAddress = 11801
+    DnxSignTx = 11802
+    DnxInputRequest = 11803
+    DnxInputAck = 11804
+    DnxRTSigsRequest = 11805
+    DnxSignedTx = 11806

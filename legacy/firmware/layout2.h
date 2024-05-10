@@ -123,7 +123,8 @@ void layoutCosiSign(const uint32_t *address_n, size_t address_n_count,
                     const uint8_t *data, uint32_t len);
 
 void layoutConfirmAutoLockDelay(uint32_t delay_ms);
-bool layoutConfirmSafetyChecks(SafetyCheckLevel safety_checks_level);
+bool layoutConfirmSafetyChecks(SafetyCheckLevel safety_checks_level,
+                               bool interactive);
 
 void layoutConfirmHash(const BITMAP *icon, const char *description,
                        const uint8_t *hash, uint32_t len);
@@ -256,6 +257,12 @@ static inline void oledClear_ex(void) {
   layoutStatusLogoEx(false, true);
 #endif
 }
+static inline void oledClear_ext(int x, int y) {
+  oledClearFrom_x_y(x, y);
+#if !EMULATOR
+  layoutStatusLogoEx(false, true);
+#endif
+}
 
 #if DEBUG_LINK
 #define layoutSwipe oledClear
@@ -307,5 +314,4 @@ bool layoutPaginated(const char *title, const uint8_t *data, uint16_t len);
 
 void onboarding(uint8_t key);
 void hide_icons(bool hide);
-
 #endif

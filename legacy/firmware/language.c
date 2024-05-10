@@ -344,6 +344,7 @@ const char *languages[][2] = {
     {"Do you want to enable\npassphrase protection?",
      "要启用 passphrase 加密吗?"},
     {"Do you want to encrypt\nNostr message?", "确认要加密本次 Nostr 消息吗?"},
+    // fsm_msg_common.h
     {"Do you want to restart", "确定要重启设备并进入更新"},
     // menu_list.c
     {"Do you want to restore the\ninput direction to default?",

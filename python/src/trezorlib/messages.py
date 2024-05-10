@@ -306,7 +306,7 @@ class MessageType(IntEnum):
     BixinBackupDevice = 914
     BixinBackupDeviceAck = 915
     BixinPinInputOnDevice = 10000
-    EthereumSignMessageEIP712 = 10200
+    Deprecated_EthereumSignMessageEIP712 = 10200
     GetPublicKeyMultiple = 10210
     PublicKeyMultiple = 10211
     ConfluxGetAddress = 10112
@@ -381,6 +381,13 @@ class MessageType(IntEnum):
     NervosSignedTx = 11704
     NervosTxRequest = 11705
     NervosTxAck = 11706
+    DnxGetAddress = 11800
+    DnxAddress = 11801
+    DnxSignTx = 11802
+    DnxInputRequest = 11803
+    DnxInputAck = 11804
+    DnxRTSigsRequest = 11805
+    DnxSignedTx = 11806
     DeviceEraseSector = 10026
 
 
@@ -4803,6 +4810,164 @@ class DebugLinkWatchLayout(protobuf.MessageType):
         self.watch = watch
 
 
+class DnxGetAddress(protobuf.MessageType):
+    MESSAGE_WIRE_TYPE = 11800
+    FIELDS = {
+        1: protobuf.Field("address_n", "uint32", repeated=True, required=False, default=None),
+        2: protobuf.Field("show_display", "bool", repeated=False, required=False, default=None),
+    }
+
+    def __init__(
+        self,
+        *,
+        address_n: Optional[Sequence["int"]] = None,
+        show_display: Optional["bool"] = None,
+    ) -> None:
+        self.address_n: Sequence["int"] = address_n if address_n is not None else []
+        self.show_display = show_display
+
+
+class DnxAddress(protobuf.MessageType):
+    MESSAGE_WIRE_TYPE = 11801
+    FIELDS = {
+        1: protobuf.Field("address", "string", repeated=False, required=False, default=None),
+    }
+
+    def __init__(
+        self,
+        *,
+        address: Optional["str"] = None,
+    ) -> None:
+        self.address = address
+
+
+class DnxSignTx(protobuf.MessageType):
+    MESSAGE_WIRE_TYPE = 11802
+    FIELDS = {
+        1: protobuf.Field("address_n", "uint32", repeated=True, required=False, default=None),
+        2: protobuf.Field("inputs_count", "uint32", repeated=False, required=True),
+        3: protobuf.Field("to_address", "string", repeated=False, required=True),
+        4: protobuf.Field("amount", "uint64", repeated=False, required=True),
+        5: protobuf.Field("fee", "uint64", repeated=False, required=True),
+        6: protobuf.Field("payment_id", "bytes", repeated=False, required=False, default=None),
+    }
+
+    def __init__(
+        self,
+        *,
+        inputs_count: "int",
+        to_address: "str",
+        amount: "int",
+        fee: "int",
+        address_n: Optional[Sequence["int"]] = None,
+        payment_id: Optional["bytes"] = None,
+    ) -> None:
+        self.address_n: Sequence["int"] = address_n if address_n is not None else []
+        self.inputs_count = inputs_count
+        self.to_address = to_address
+        self.amount = amount
+        self.fee = fee
+        self.payment_id = payment_id
+
+
+class DnxInputRequest(protobuf.MessageType):
+    MESSAGE_WIRE_TYPE = 11803
+    FIELDS = {
+        1: protobuf.Field("request_index", "uint32", repeated=False, required=False, default=None),
+        2: protobuf.Field("tx_key", "DnxTxKey", repeated=False, required=False, default=None),
+        3: protobuf.Field("computed_key_image", "DnxComputedKeyImage", repeated=False, required=False, default=None),
+    }
+
+    def __init__(
+        self,
+        *,
+        request_index: Optional["int"] = None,
+        tx_key: Optional["DnxTxKey"] = None,
+        computed_key_image: Optional["DnxComputedKeyImage"] = None,
+    ) -> None:
+        self.request_index = request_index
+        self.tx_key = tx_key
+        self.computed_key_image = computed_key_image
+
+
+class DnxInputAck(protobuf.MessageType):
+    MESSAGE_WIRE_TYPE = 11804
+    FIELDS = {
+        1: protobuf.Field("prev_index", "uint32", repeated=False, required=True),
+        2: protobuf.Field("global_index", "uint32", repeated=False, required=True),
+        3: protobuf.Field("tx_pubkey", "bytes", repeated=False, required=True),
+        4: protobuf.Field("prev_out_pubkey", "bytes", repeated=False, required=True),
+        5: protobuf.Field("amount", "uint64", repeated=False, required=True),
+    }
+
+    def __init__(
+        self,
+        *,
+        prev_index: "int",
+        global_index: "int",
+        tx_pubkey: "bytes",
+        prev_out_pubkey: "bytes",
+        amount: "int",
+    ) -> None:
+        self.prev_index = prev_index
+        self.global_index = global_index
+        self.tx_pubkey = tx_pubkey
+        self.prev_out_pubkey = prev_out_pubkey
+        self.amount = amount
+
+
+class DnxRTSigsRequest(protobuf.MessageType):
+    MESSAGE_WIRE_TYPE = 11805
+
+
+class DnxSignedTx(protobuf.MessageType):
+    MESSAGE_WIRE_TYPE = 11806
+    FIELDS = {
+        1: protobuf.Field("signatures", "bytes", repeated=True, required=False, default=None),
+        2: protobuf.Field("output_keys", "bytes", repeated=True, required=False, default=None),
+    }
+
+    def __init__(
+        self,
+        *,
+        signatures: Optional[Sequence["bytes"]] = None,
+        output_keys: Optional[Sequence["bytes"]] = None,
+    ) -> None:
+        self.signatures: Sequence["bytes"] = signatures if signatures is not None else []
+        self.output_keys: Sequence["bytes"] = output_keys if output_keys is not None else []
+
+
+class DnxTxKey(protobuf.MessageType):
+    MESSAGE_WIRE_TYPE = None
+    FIELDS = {
+        1: protobuf.Field("ephemeral_tx_sec_key", "bytes", repeated=False, required=False, default=None),
+        2: protobuf.Field("ephemeral_tx_pub_key", "bytes", repeated=False, required=False, default=None),
+    }
+
+    def __init__(
+        self,
+        *,
+        ephemeral_tx_sec_key: Optional["bytes"] = None,
+        ephemeral_tx_pub_key: Optional["bytes"] = None,
+    ) -> None:
+        self.ephemeral_tx_sec_key = ephemeral_tx_sec_key
+        self.ephemeral_tx_pub_key = ephemeral_tx_pub_key
+
+
+class DnxComputedKeyImage(protobuf.MessageType):
+    MESSAGE_WIRE_TYPE = None
+    FIELDS = {
+        1: protobuf.Field("key_image", "bytes", repeated=False, required=False, default=None),
+    }
+
+    def __init__(
+        self,
+        *,
+        key_image: Optional["bytes"] = None,
+    ) -> None:
+        self.key_image = key_image
+
+
 class EosGetPublicKey(protobuf.MessageType):
     MESSAGE_WIRE_TYPE = 600
     FIELDS = {
@@ -5997,26 +6162,6 @@ class EthereumTypedDataSignatureOneKey(protobuf.MessageType):
     ) -> None:
         self.signature = signature
         self.address = address
-
-
-class EthereumSignMessageEIP712(protobuf.MessageType):
-    MESSAGE_WIRE_TYPE = 10200
-    FIELDS = {
-        1: protobuf.Field("address_n", "uint32", repeated=True, required=False, default=None),
-        2: protobuf.Field("domain_hash", "bytes", repeated=False, required=False, default=None),
-        3: protobuf.Field("message_hash", "bytes", repeated=False, required=False, default=None),
-    }
-
-    def __init__(
-        self,
-        *,
-        address_n: Optional[Sequence["int"]] = None,
-        domain_hash: Optional["bytes"] = None,
-        message_hash: Optional["bytes"] = None,
-    ) -> None:
-        self.address_n: Sequence["int"] = address_n if address_n is not None else []
-        self.domain_hash = domain_hash
-        self.message_hash = message_hash
 
 
 class EthereumAccessListOneKey(protobuf.MessageType):
