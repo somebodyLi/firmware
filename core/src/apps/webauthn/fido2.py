@@ -168,17 +168,19 @@ _U2FHID_IF_VERSION = const(2)  # interface version
 
 # register response
 _U2F_REGISTER_ID = const(0x05)  # version 2 registration identifier
-_FIDO_ATT_PRIV_KEY = b"q&\xac+\xf6D\xdca\x86\xad\x83\xef\x1f\xcd\xf1*W\xb5\xcf\xa2\x00\x0b\x8a\xd0'\xe9V\xe8T\xc5\n\x8b"
-_FIDO_ATT_CERT = b"0\x82\x01\xcd0\x82\x01s\xa0\x03\x02\x01\x02\x02\x04\x03E`\xc40\n\x06\x08*\x86H\xce=\x04\x03\x020.1,0*\x06\x03U\x04\x03\x0c#Trezor FIDO Root CA Serial 841513560 \x17\r200406100417Z\x18\x0f20500406100417Z0x1\x0b0\t\x06\x03U\x04\x06\x13\x02CZ1\x1c0\x1a\x06\x03U\x04\n\x0c\x13SatoshiLabs, s.r.o.1\"0 \x06\x03U\x04\x0b\x0c\x19Authenticator Attestation1'0%\x06\x03U\x04\x03\x0c\x1eTrezor FIDO EE Serial 548784040Y0\x13\x06\x07*\x86H\xce=\x02\x01\x06\x08*\x86H\xce=\x03\x01\x07\x03B\x00\x04\xd9\x18\xbd\xfa\x8aT\xac\x92\xe9\r\xa9\x1f\xcaz\xa2dT\xc0\xd1s61M\xde\x83\xa5K\x86\xb5\xdfN\xf0Re\x9a\x1do\xfc\xb7F\x7f\x1a\xcd\xdb\x8a3\x08\x0b^\xed\x91\x89\x13\xf4C\xa5&\x1b\xc7{h`o\xc1\xa33010!\x06\x0b+\x06\x01\x04\x01\x82\xe5\x1c\x01\x01\x04\x04\x12\x04\x10\xd6\xd0\xbd\xc3b\xee\xc4\xdb\xde\x8dzenJD\x870\x0c\x06\x03U\x1d\x13\x01\x01\xff\x04\x020\x000\n\x06\x08*\x86H\xce=\x04\x03\x02\x03H\x000E\x02 \x0b\xce\xc4R\xc3\n\x11'\xe5\xd5\xf5\xfc\xf5\xd6Wy\x11+\xe50\xad\x9d-TXJ\xbeE\x86\xda\x93\xc6\x02!\x00\xaf\xca=\xcf\xd8A\xb0\xadz\x9e$}\x0ff\xf4L,\x83\xf9T\xab\x95O\x896\xc15\x08\x7fX\xf1\x95"
+_FIDO_ATT_PRIV_KEY = b"<\xb7\xcc\xdbD%\xffL\x8f]'\x92\x04=\x0b\xee\x9c \xae\x86\xd2U\xb2\xa5\x06\xbc\xf6\x16y\xe7Ge"
+_FIDO_ATT_CERT = b"0\x82\x02\x960\x82\x02=\xa0\x03\x02\x01\x02\x02\x08]X\xed\x96\xdf\xc3H\xf50\n\x06\x08*\x86H\xce=\x04\x03\x020\x81\x971\x0b0\t\x06\x03U\x04\x06\x13\x02CN1\x100\x0e\x06\x03U\x04\x08\x13\x07BEIJING1\x100\x0e\x06\x03U\x04\x07\x13\x07HAIDIAN1\x1f0\x1d\x06\x03U\x04\n\x13\x16ONEKEY GLOBAL CO., LTD1\x0f0\r\x06\x03U\x04\x0b\x13\x06ONEKEY1\x140\x12\x06\x03U\x04\x03\x13\x0bONEKEY ROOT1\x1c0\x1a\x06\t*\x86H\x86\xf7\r\x01\t\x01\x16\rdev@onekey.so0\x1e\x17\r231107035200Z\x17\r331107035100Z0\x81\x961\x0b0\t\x06\x03U\x04\x06\x13\x02CN1\x100\x0e\x06\x03U\x04\x08\x13\x07BEIJING1\x100\x0e\x06\x03U\x04\x07\x13\x07HAIDIAN1\x1f0\x1d\x06\x03U\x04\n\x13\x16ONEKEY GLOBAL CO., LTD1\x0f0\r\x06\x03U\x04\x0b\x13\x06ONEKEY1\x130\x11\x06\x03U\x04\x03\x13\nONEKEY U2F1\x1c0\x1a\x06\t*\x86H\x86\xf7\r\x01\t\x01\x16\rdev@onekey.so0Y0\x13\x06\x07*\x86H\xce=\x02\x01\x06\x08*\x86H\xce=\x03\x01\x07\x03B\x00\x04 \xc4\xc2\xca(6f\xb2\xd7\xa0|%\xb7,_\xc3\xac\xfe\xb4\x9cd\xb0'\xc1\x84\xa3\xea\x10\xe8\xd0=H\xa4\xa4\x12l=\xbc\xc6\x1f\x9fT\xda\xb5\xde0\x85\xb70\x9f(*\xc7c\xafl\x0b\xf2\xfa\xa23\x88\x0fu\xa3r0p0\x0f\x06\x03U\x1d\x13\x01\x01\xff\x04\x050\x03\x01\x01\xff0\x1d\x06\x03U\x1d\x0e\x04\x16\x04\x14>,B\xa5\x9e\x85Q?\x9e\xda\xc8\xcft\xc3\x95?W\x93\xda\xb60\x0b\x06\x03U\x1d\x0f\x04\x04\x03\x02\x01\x060\x11\x06\t`\x86H\x01\x86\xf8B\x01\x01\x04\x04\x03\x02\x00\x070\x1e\x06\t`\x86H\x01\x86\xf8B\x01\r\x04\x11\x16\x0fxca certificate0\n\x06\x08*\x86H\xce=\x04\x03\x02\x03G\x000D\x02 M\xf5/\xaf\xbb\xf1fM\xbc\xf3\xe0\xd5\n\xd2\xc3'\xf5@\xaaU\x8d\xbcZBzT\xd8\xf5Y\xd4Tu\x02 @(S\xdf\x1d\xf1\xfdr\xe8_\xa7\xc0l+\xff+\xd2\xb1\x9a\xa1\x85\xf6\x08 '\xbb\xa9\xf78r\x97`"
 _BOGUS_APPID_CHROME = b"A" * 32
 _BOGUS_APPID_FIREFOX = b"\0" * 32
 _BOGUS_APPIDS = (_BOGUS_APPID_CHROME, _BOGUS_APPID_FIREFOX)
-_AAGUID = b"\xd6\xd0\xbd\xc3b\xee\xc4\xdb\xde\x8dzenJD\x87"  # First 16 bytes of SHA-256("TREZOR 2")
+_AAGUID = b"\x94\xAC\xCF\x7A\x47\x2C\xD0\x2F\xC6\xE1\x17\x08\x54\x9B\xB1\x00"  # First 16 bytes of SHA-256("ONEKEY TOUCH")
 
 # authentication control byte
 _AUTH_ENFORCE = const(0x03)  # enforce user presence and sign
 _AUTH_CHECK_ONLY = const(0x07)  # check only
-_AUTH_FLAG_UP = const(1 << 0)  # user present
+_NOT_AUTH_ENFORCE = const(0x08)  # dont-enforce-user-presence-and-sign
+_AUTH_FLAG_UP = const(1 << 0)  # user present verified
+_AUTH_FLG_UP_NOT = const(0 << 0)  # user present not verified
 _AUTH_FLAG_UV = const(1 << 2)  # user verified
 _AUTH_FLAG_AT = const(1 << 6)  # attested credential data included
 _AUTH_FLAG_ED = const(1 << 7)  # extension data included
@@ -361,11 +363,16 @@ class Cmd:
         ins = self.data[_APDU_INS]
         p1 = self.data[_APDU_P1]
         p2 = self.data[_APDU_P2]
-        lc = (
-            (self.data[_APDU_LC1] << 16)
-            + (self.data[_APDU_LC2] << 8)
-            + (self.data[_APDU_LC3])
-        )
+        if (
+            len(self.data) == 5 and self.data[_APDU_LC1] == 0
+        ):  # means that the lc is encoded in short form
+            lc = 0
+        else:  # means that the lc is encoded in extend form
+            lc = (
+                (self.data[_APDU_LC1] << 16)  # must be 0
+                + (self.data[_APDU_LC2] << 8)
+                + (self.data[_APDU_LC3])
+            )
         data = self.data[_APDU_DATA : _APDU_DATA + lc]
         return Msg(self.cid, cla, ins, p1, p2, lc, data)
 
@@ -618,7 +625,7 @@ class State:
 
 class U2fState(State, ConfirmInfo):
     def __init__(
-        self, cid: int, iface: io.HID, req_data: bytes, cred: Credential
+        self, cid: int, iface: io.HID, req_data: bytes, cred: U2fCredential
     ) -> None:
         State.__init__(self, cid, iface)
         ConfirmInfo.__init__(self)
@@ -634,6 +641,19 @@ class U2fState(State, ConfirmInfo):
 
     def account_name(self) -> str | None:
         return self._cred.account_name()
+
+    async def on_decline(self) -> None:
+        cmd = cmd_error(self.cid, _ERR_CHANNEL_BUSY)
+        await send_cmd(cmd, self.iface)
+        self.finished = True
+
+    async def on_timeout(self) -> None:
+        cmd = cmd_error(self.cid, _ERR_MSG_TIMEOUT)
+        await send_cmd(cmd, self.iface)
+        self.finished = True
+
+    async def on_cancel(self) -> None:
+        await self.on_decline()
 
 
 class U2fConfirmRegister(U2fState):
@@ -670,12 +690,24 @@ class U2fConfirmRegister(U2fState):
             and self._req_data == other._req_data
         )
 
+    async def on_confirm(self) -> None:
+        buf = msg_register_sign(self._req_data[:32], self._cred)
+        cmd = Cmd(self.cid, _CMD_MSG, buf)
+        await send_cmd(cmd, self.iface)
+        self.finished = True
+
 
 class U2fConfirmAuthenticate(U2fState):
     def __init__(
-        self, cid: int, iface: io.HID, req_data: bytes, cred: Credential
+        self,
+        cid: int,
+        iface: io.HID,
+        req_data: bytes,
+        cred: U2fCredential,
+        user_presence_verified: bool = True,
     ) -> None:
         super().__init__(cid, iface, req_data, cred)
+        self.user_presence_verified = user_presence_verified
 
     def get_header(self) -> str:
         return _(i18n_keys.TITLE__U2F_AUTHENTICATE)
@@ -690,6 +722,20 @@ class U2fConfirmAuthenticate(U2fState):
             and self._req_data == other._req_data
         )
 
+    async def on_confirm(self) -> None:
+        khlen = self._req_data[_REQ_CMD_AUTHENTICATE_KHLEN]
+        auth = overlay_struct(bytearray(self._req_data), req_cmd_authenticate(khlen))
+        challenge = bytes(auth.chal)
+        rp_id_hash = bytes(auth.appId)
+        buf = msg_authenticate_sign(
+            challenge,
+            rp_id_hash,
+            self._cred,
+            user_presence_verified=self.user_presence_verified,
+        )
+        cmd = Cmd(self.cid, _CMD_MSG, buf)
+        await send_cmd(cmd, self.iface)
+        self.finished = True
 
 class U2fUnlock(State):
     def timeout_ms(self) -> int:
@@ -721,7 +767,7 @@ class Fido2State(State):
         return _FIDO2_CONFIRM_TIMEOUT_MS
 
     async def on_confirm(self) -> None:
-        cmd = cbor_error(self.cid, _ERR_OPERATION_DENIED)
+        cmd = cbor_error(self.cid, _ERR_NONE)
         await send_cmd(cmd, self.iface)
         self.finished = True
 
@@ -1072,6 +1118,8 @@ def dispatch_cmd(req: Cmd, dialog_mgr: DialogManager) -> Cmd | None:
         try:
             m = req.to_msg()
         except IndexError:
+            if __debug__:
+                log.warning(__name__, "_ERR_INVALID_LEN")
             return cmd_error(req.cid, _ERR_INVALID_LEN)
 
         if m.cla != 0:
@@ -1079,7 +1127,7 @@ def dispatch_cmd(req: Cmd, dialog_mgr: DialogManager) -> Cmd | None:
                 log.warning(__name__, "_SW_CLA_NOT_SUPPORTED")
             return msg_error(req.cid, _SW_CLA_NOT_SUPPORTED)
 
-        if m.lc + _APDU_DATA > len(req.data):
+        if m.lc + _APDU_DATA > len(req.data) and len(req.data) != 5:
             if __debug__:
                 log.warning(__name__, "_SW_WRONG_LENGTH")
             return msg_error(req.cid, _SW_WRONG_LENGTH)
@@ -1187,7 +1235,7 @@ def cmd_wink(req: Cmd) -> Cmd:
     return req
 
 
-def msg_register(req: Msg, dialog_mgr: DialogManager) -> Cmd:
+def msg_register(req: Msg, dialog_mgr: DialogManager) -> Cmd | None:
     if not config.is_unlocked():
         new_state: State = U2fUnlock(req.cid, dialog_mgr.iface)
         dialog_mgr.set_state(new_state)
@@ -1207,7 +1255,7 @@ def msg_register(req: Msg, dialog_mgr: DialogManager) -> Cmd:
         return msg_error(req.cid, _SW_WRONG_LENGTH)
 
     # parse challenge and rp_id_hash
-    chal = req.data[:32]
+    # chal = req.data[:32]
     cred = U2fCredential()
     cred.rp_id_hash = req.data[32:]
     cred.generate_key_handle()
@@ -1217,27 +1265,28 @@ def msg_register(req: Msg, dialog_mgr: DialogManager) -> Cmd:
     if not dialog_mgr.set_state(new_state):
         return msg_error(req.cid, _SW_CONDITIONS_NOT_SATISFIED)
 
-    # wait for a button or continue
-    if dialog_mgr.result == _RESULT_NONE:
-        if __debug__:
-            log.info(__name__, "waiting for button")
-        return msg_error(req.cid, _SW_CONDITIONS_NOT_SATISFIED)
+    # # wait for a button or continue
+    # if dialog_mgr.result == _RESULT_NONE:
+    #     if __debug__:
+    #         log.info(__name__, "waiting for button........")
+    #     return msg_error(req.cid, _SW_CONDITIONS_NOT_SATISFIED)
 
-    if dialog_mgr.result != _RESULT_CONFIRM:
-        if __debug__:
-            log.info(__name__, "request declined")
-        # There is no standard way to decline a U2F request, but responding with ERR_CHANNEL_BUSY
-        # doesn't seem to violate the protocol and at least stops Chrome from polling.
-        return cmd_error(req.cid, _ERR_CHANNEL_BUSY)
+    # if dialog_mgr.result != _RESULT_CONFIRM:
+    #     if __debug__:
+    #         log.info(__name__, "request declined")
+    #     # There is no standard way to decline a U2F request, but responding with ERR_CHANNEL_BUSY
+    #     # doesn't seem to violate the protocol and at least stops Chrome from polling.
+    #     return cmd_error(req.cid, _ERR_CHANNEL_BUSY)
 
-    # sign the registration challenge and return
-    if __debug__:
-        log.info(__name__, "signing register")
-    buf = msg_register_sign(chal, cred)
+    # # sign the registration challenge and return
+    # if __debug__:
+    #     log.info(__name__, "signing register")
+    # buf = msg_register_sign(chal, cred)
 
-    dialog_mgr.reset()
-
-    return Cmd(req.cid, _CMD_MSG, buf)
+    # dialog_mgr.reset()
+    # print(f"msg_register_sign == {buf}")
+    # return Cmd(req.cid, _CMD_MSG, buf)
+    return None
 
 
 def basic_attestation_sign(data: Iterable[bytes]) -> bytes:
@@ -1268,7 +1317,7 @@ def msg_register_sign(challenge: bytes, cred: U2fCredential) -> bytes:
     return bytes(buf)
 
 
-def msg_authenticate(req: Msg, dialog_mgr: DialogManager) -> Cmd:
+def msg_authenticate(req: Msg, dialog_mgr: DialogManager) -> Cmd | None:
     if not config.is_unlocked():
         new_state: State = U2fUnlock(req.cid, dialog_mgr.iface)
         dialog_mgr.set_state(new_state)
@@ -1289,12 +1338,12 @@ def msg_authenticate(req: Msg, dialog_mgr: DialogManager) -> Cmd:
     # check keyHandleLen
     khlen = req.data[_REQ_CMD_AUTHENTICATE_KHLEN]
     auth = overlay_struct(bytearray(req.data), req_cmd_authenticate(khlen))
-    challenge = bytes(auth.chal)
+    # challenge = bytes(auth.chal)
     rp_id_hash = bytes(auth.appId)
     key_handle = bytes(auth.keyHandle)
 
     try:
-        cred = Credential.from_bytes(key_handle, rp_id_hash)
+        cred = U2fCredential.from_key_handle(key_handle, rp_id_hash)
     except Exception:
         # specific error logged in _node_from_key_handle
         return msg_error(req.cid, _SW_WRONG_DATA)
@@ -1307,44 +1356,53 @@ def msg_authenticate(req: Msg, dialog_mgr: DialogManager) -> Cmd:
         _last_good_auth_check_cid = req.cid
         return msg_error(req.cid, _SW_CONDITIONS_NOT_SATISFIED)
 
-    # from now on, only _AUTH_ENFORCE is supported
-    if req.p1 != _AUTH_ENFORCE:
+    if req.p1 not in (_AUTH_ENFORCE, _NOT_AUTH_ENFORCE):
         if __debug__:
             log.info(__name__, "_AUTH_ENFORCE")
         return msg_error(req.cid, _SW_WRONG_DATA)
 
     # check equality with last request
-    new_state = U2fConfirmAuthenticate(req.cid, dialog_mgr.iface, req.data, cred)
+    new_state = U2fConfirmAuthenticate(
+        req.cid,
+        dialog_mgr.iface,
+        req.data,
+        cred,
+        user_presence_verified=req.p1 == _AUTH_ENFORCE,
+    )
     if not dialog_mgr.set_state(new_state):
         return msg_error(req.cid, _SW_CONDITIONS_NOT_SATISFIED)
+    return None
 
-    # wait for a button or continue
-    if dialog_mgr.result == _RESULT_NONE:
-        if __debug__:
-            log.info(__name__, "waiting for button")
-        return msg_error(req.cid, _SW_CONDITIONS_NOT_SATISFIED)
+    # # wait for a button or continue
+    # if dialog_mgr.result == _RESULT_NONE:
+    #     if __debug__:
+    #         log.info(__name__, "waiting for button")
+    #     return msg_error(req.cid, _SW_CONDITIONS_NOT_SATISFIED)
 
-    if dialog_mgr.result != _RESULT_CONFIRM:
-        if __debug__:
-            log.info(__name__, "request declined")
-        # There is no standard way to decline a U2F request, but responding with ERR_CHANNEL_BUSY
-        # doesn't seem to violate the protocol and at least stops Chrome from polling.
-        return cmd_error(req.cid, _ERR_CHANNEL_BUSY)
+    # if dialog_mgr.result != _RESULT_CONFIRM:
+    #     if __debug__:
+    #         log.info(__name__, "request declined")
+    #     # There is no standard way to decline a U2F request, but responding with ERR_CHANNEL_BUSY
+    #     # doesn't seem to violate the protocol and at least stops Chrome from polling.
+    #     return cmd_error(req.cid, _ERR_CHANNEL_BUSY)
 
-    # sign the authentication challenge and return
-    if __debug__:
-        log.info(__name__, "signing authentication")
-    buf = msg_authenticate_sign(challenge, rp_id_hash, cred)
+    # # sign the authentication challenge and return
+    # if __debug__:
+    #     log.info(__name__, "signing authentication")
+    # buf = msg_authenticate_sign(challenge, rp_id_hash, cred)
 
-    dialog_mgr.reset()
+    # dialog_mgr.reset()
 
-    return Cmd(req.cid, _CMD_MSG, buf)
+    # return Cmd(req.cid, _CMD_MSG, buf)
 
 
 def msg_authenticate_sign(
-    challenge: bytes, rp_id_hash: bytes, cred: Credential
+    challenge: bytes,
+    rp_id_hash: bytes,
+    cred: Credential,
+    user_presence_verified: bool = True,
 ) -> bytes:
-    flags = bytes([_AUTH_FLAG_UP])
+    flags = bytes([_AUTH_FLAG_UP if user_presence_verified else _AUTH_FLG_UP_NOT])
 
     # get next counter
     ctr = cred.next_signature_counter()
