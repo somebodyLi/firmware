@@ -153,6 +153,12 @@ def play_dead():
     loop.pop_tasks_on_iface(SPI_IFACE_NUM)
 
 
+def is_low_battery():
+    if BATTERY_CAP is not None and BATTERY_CAP < 10:
+        return True
+    return False
+
+
 def show_app_guide():
     global _SHOW_APP_GUIDE
     if _SHOW_APP_GUIDE:

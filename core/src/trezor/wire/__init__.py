@@ -292,7 +292,8 @@ class Context:
 
     async def signal(self):
         await SIGNAL_CHANNEL.take()
-        await self.write(failure(loop.TASK_CLOSED))
+        if self.iface.iface_num() == utils.SPI_IFACE_NUM:
+            await self.write(failure(loop.TASK_CLOSED))
         SIGNAL_CHANNEL.publish("done")
 
 
@@ -339,7 +340,16 @@ async def _handle_single_message(
     if handler is None:
         # If no handler is found, we can skip decoding and directly
         # respond with failure.}
-        await ctx.write(unexpected_message())
+        from trezor.enums import MessageType
+
+        if msg.type in [
+            MessageType.ResetDevice,
+            MessageType.RecoveryDevice,
+            MessageType.BackupDevice,
+        ]:
+            await ctx.write(unsupported())
+        else:
+            await ctx.write(unexpected_message())
         return None
 
     # Here we make sure we always respond with a Failure response
@@ -496,3 +506,7 @@ def failure(exc: BaseException) -> Failure:
 
 def unexpected_message() -> Failure:
     return Failure(code=FailureType.UnexpectedMessage, message="Unexpected message")
+
+
+def unsupported() -> Failure:
+    return Failure(code=FailureType.UnexpectedMessage, message="Not support")

@@ -1730,7 +1730,9 @@ class PowerOff(FullSizeWindow):
             title=_(i18n_keys.TITLE__POWER_OFF),
             confirm_text=_(i18n_keys.BUTTON__POWER_OFF),
             cancel_text=_(i18n_keys.BUTTON__CANCEL),
-            subtitle="",
+            subtitle=_(i18n_keys.CONTENT__POWER_OFF_LOW_BATTERY_DESC)
+            if utils.is_low_battery()
+            else None,
         )
         self.btn_yes.enable(lv_colors.ONEKEY_RED_1, text_color=lv_colors.BLACK)
         self.re_loop = re_loop
